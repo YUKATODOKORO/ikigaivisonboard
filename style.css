@@ -123,3 +123,34 @@ input[type="submit"]:hover {
     background: #FF4081;
     color: white;
 }
+
+/* モバイル用のレスポンシブデザイン */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    form {
+        width: 90%;
+        padding: 15px;
+    }
+
+    label {
+        font-size: 1em;
+    }
+
+    input[type="submit"] {
+        padding: 8px 16px;
+        font-size: 1em;
+    }
+
+    .language-switch button {
+        padding: 3px 8px;
+        font-size: 0.9em;
+    }
+}
