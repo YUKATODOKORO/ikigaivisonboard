@@ -1,0 +1,125 @@
+/* 全体のスタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #FFDEE9, #B5FFFC);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #333;
+    position: relative;
+}
+
+/* タイトルのスタイル */
+h1 {
+    font-size: 2.5em;
+    color: #FF4081;
+    text-shadow: 2px 2px 4px #FFA8A8;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 説明文のスタイル */
+p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #555;
+}
+
+/* フォームのスタイル */
+form {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* ラベルのスタイル */
+label {
+    font-size: 1.1em;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* テキストボックスのスタイル */
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #FF80AB;
+    border-radius: 10px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* テキストボックスのフォーカス時のスタイル */
+input[type="text"]:focus, textarea:focus {
+    border-color: #FF4081;
+    outline: none;
+    box-shadow: 0 0 8px #FF80AB;
+}
+
+/* 送信ボタンのスタイル */
+input[type="submit"] {
+    background: #FF4081;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 送信ボタンのホバー時のスタイル */
+input[type="submit"]:hover {
+    background: #FF80AB;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 画像結果のスタイル */
+#imageResult {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* 生成された画像のスタイル */
+#generatedImage {
+    max-width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 言語切替ボタンを右上に配置 */
+.language-switch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.language-switch button {
+    background: transparent;
+    border: 2px solid #FF4081;
+    color: #FF4081;
+    padding: 5px 10px;
+    margin-left: 10px;
+    font-size: 1em;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-switch button:hover {
+    background: #FF4081;
+    color: white;
+}
