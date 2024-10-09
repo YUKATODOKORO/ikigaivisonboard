@@ -6,22 +6,19 @@
     <title>ikigAIグラレコ生成</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ボタンの基本スタイル */
         #generateButton {
             padding: 0px 20px 0px 20px;
             height: 30px;
-            line-height: 30px; /* テキストを中央揃え */
-            text-align: center; /* 横方向の中央揃え */
+            line-height: 30px;
+            text-align: center;
         }
 
-        /* ボタンが無効化されたときのスタイル（グレーアウト） */
         #generateButton:disabled {
-            background-color: #cccccc; /* グレー */
-            color: #666666; /* テキストの色も薄くする */
-            cursor: not-allowed; /* カーソルを押せない状態に */
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
         }
 
-        /* 言語切替ボタン */
         .lang-toggle {
             margin: 10px;
             cursor: pointer;
@@ -40,7 +37,6 @@
     <h1 id="title">ikigAIグラレコ生成</h1>
     <p id="description">以下の２問の回答に基づいてikigAIグラレコを生成します。できるたけ具体的に記載してください。</p>
  
-    
     <form id="generateForm">
         <label id="identityLabel" for="identity">①「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)</label><br>
         <input type="text" id="identity" name="identity"><br><br>
@@ -48,11 +44,9 @@
         <label id="idealLifeLabel" for="idealLife">②「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label><br>
         <textarea id="idealLife" name="idealLife"></textarea><br><br>
 
-        <!-- 生成ボタン -->
         <input type="submit" value="生成" id="generateButton">
     </form>
 
-    <!-- ローディング画面 -->
     <div id="loading" style="display: none;">
         <p id="loadingText">画像生成中...（30秒〜1分ほど）</p>
     </div>
@@ -94,36 +88,29 @@
             document.getElementById('resultTitle').textContent = textContent[lang].resultTitle;
         }
 
+        // 生成フォームの送信
         document.getElementById('generateForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // デフォルトのフォーム送信を防ぐ
+            e.preventDefault();
 
-            // ボタンを無効化し、ローディング画面を表示
             const generateButton = document.getElementById('generateButton');
-            generateButton.disabled = true;  // 生成ボタンを無効化
-            generateButton.value = textContent[document.documentElement.lang].generateButton + "..."; // ボタンのテキストを変更
+            generateButton.disabled = true;
+            generateButton.value = textContent[document.documentElement.lang].generateButton + "...";
             document.getElementById('loading').style.display = 'block';
             document.getElementById('imageResult').style.display = 'none';
 
-            // フォームの値を取得
             const identity = document.getElementById('identity').value;
             const idealLife = document.getElementById('idealLife').value;
-
-            // プロンプトを生成
             const prompt = `${identity}をアイデンティティとして持つ人が、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
 
             try {
-                // APIリクエストを送信
-                const response = await fetch('https://api.openai.com/v1/images/generations', {
+                // CORSを回避するために、GAS経由でリクエストを送信
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzy4EzCSeIIFOyKG7tfLhnyGzx7YMFdjg0xiT3hqGIk-NW-eHE61nxxQHh0dR1W9NEZ/exec', {
                     method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " // ここにAPIキーを貼り付け
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "dall-e-3",
-                        prompt: prompt,
-                        size: "1024x1792",
-                        n: 1
+                        prompt: prompt
                     })
                 });
 
@@ -132,19 +119,17 @@
                 }
 
                 const data = await response.json();
-                const imageUrl = data.data[0].url;
+                const imageUrl = data.imageUrl;
 
-                // 画像を表示
                 document.getElementById('generatedImage').src = imageUrl;
-                document.getElementById('imageResult').style.display = 'block'; // 画像のセクションを表示
+                document.getElementById('imageResult').style.display = 'block';
             } catch (error) {
                 console.error('Error:', error);
                 alert('画像の生成に失敗しました。');
             } finally {
-                // ローディング画面を非表示にし、ボタンを有効化
                 document.getElementById('loading').style.display = 'none';
-                generateButton.disabled = false; // ボタンの無効化を解除
-                generateButton.value = textContent[document.documentElement.lang].generateButton; // ボタンのテキストを戻す
+                generateButton.disabled = false;
+                generateButton.value = textContent[document.documentElement.lang].generateButton;
             }
         });
     </script>
