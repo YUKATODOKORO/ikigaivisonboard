@@ -85,7 +85,8 @@
     </div>
 
     <div id="imageResult" style="display: none">
-      <h2 id="resultTitle">あなたの理想の生成AI画像</h2>
+      <h2 id="resultTitle">ビジョンボード</h2>
+      <p id="explainToDownload">長押しでダウンロード</p>
       <img
         id="generatedImage"
         alt="生成された画像"
@@ -106,7 +107,8 @@
             "③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
           generateButton: "生成",
           loadingText: "画像生成中...（30秒〜1分ほど）",
-          resultTitle: "あなたの理想の生成AI画像",
+          resultTitle: "ビジョンボード",
+          explainToDownload:"長押しでダウンロード",
           privacyText:
             '<a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します',
         },
@@ -121,7 +123,8 @@
             "③ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
           generateButton: "Generate",
           loadingText: "Generating image... (30 seconds to 1 minute)",
-          resultTitle: "Your Ideal Generated AI Image",
+          resultTitle: "Visionboard",
+          explainToDownload:"Long press to download",
           privacyText:
             'I agree to the <a href="https://ikigai96.studio.site/privacy-policy-1" target="_blank" id="privacyLink">Privacy Policy</a>',
         },
@@ -143,6 +146,8 @@
           textContent[lang].loadingText;
         document.getElementById("resultTitle").textContent =
           textContent[lang].resultTitle;
+        document.getElementById("explainToDownload").textContent =
+          textContent[lang].explainToDownload;
 
         // プライバシーポリシーのテキストを切り替える（innerHTMLでリンクを含めて設定）
         document.getElementById("privacyText").innerHTML =
