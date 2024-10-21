@@ -55,13 +55,24 @@
       ><br />
       <input type="text" id="name" name="name" required /><br /><br />
 
+      <label id="snsAccountLabel" for="snsAccount" style="text-align: left">
+        ② お好きなSNSアカウントを記入ください（ Instagram/ Facebook / X / LINE /
+        What’s app/Mail etc） </label
+      ><br />
+      <input
+        type="text"
+        id="snsAccount"
+        name="snsAccount"
+        required
+      /><br /><br />
+
       <label id="identityLabel" for="identity" style="text-align: left"
-        >②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)</label
+        >③「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)</label
       ><br />
       <input type="text" id="identity" name="identity" required /><br /><br />
 
       <label id="idealLifeLabel" for="idealLife" style="text-align: left"
-        >③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label
+        >④「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label
       ><br />
       <textarea id="idealLife" name="idealLife" required></textarea><br /><br />
 
@@ -92,50 +103,83 @@
         alt="生成された画像"
         style="max-width: 270px; max-height: 480px"
       />
+      <p id="advertisement">
+        ビジョンボードをSNSでシェアしてみよう！<br />
+        複数枚欲しい人は
+        <a
+          href="https://ikigai96.studio.site/1-2"
+          target="_blank"
+          id="privacyLink"
+          >クリック</a
+        >
+        <br />
+        <a href="https://ikigai96.studio.site/" target="_blank" id="privacyLink"
+          >お問い合わせ先</a
+        >
+      </p>
     </div>
 
     <script>
+      // ページロード時にlocalStorageを確認し、画像生成が既に行われているかをチェック
+      window.onload = function () {
+        if (localStorage.getItem("visionboardGenerated") === "true") {
+          document.getElementById("generateButton").disabled = true;
+          document.getElementById("generateButton").value = "生成済み";
+        }
+      };
+
       const textContent = {
         ja: {
           title: "ikigAIビジョンボード生成",
           description:
             "以下の２問の回答に基づいてikigAIビジョンボードを生成します。できるだけ具体的に記載してください。",
           nameLabel: "① 氏名 (必須)",
+          snsAccount:
+            "② お好きなSNSアカウントを記入ください（ Instagram/ Facebook / X / LINE / What’s app/Mail etc）",
           identityLabel:
-            "②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)",
+            "③「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)",
           idealLifeLabel:
-            "③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
+            "④「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
           generateButton: "生成",
           loadingText: "画像生成中...（30秒〜1分ほど）",
           resultTitle: "ビジョンボード",
-          explainToDownload:"長押しでダウンロード",
+          explainToDownload: "長押しでダウンロード",
           privacyText:
             '<a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します',
+          advertisement:
+            'ビジョンボードをSNSでシェアしてみよう！<br /> 複数枚欲しい人は<a href="https://ikigai96.studio.site/1-2" target="_blank" id="privacyLink">クリック</a><br /> <a href="https://ikigai96.studio.site/" target="_blank" id="privacyLink">お問い合わせ先</a>',
         },
         en: {
           title: "ikigAI Visionboard Generation",
           description:
             "Generate an image based on the answers provided in the form below.",
           nameLabel: "① Your full name (Required)",
+          snsAccount:
+            "② SNS Accounts (Instagram / Facebook / X / LINE / WhatsApp / Email, etc.)",
           identityLabel:
-            "② List as many 'identity' or favorite things as you can. (Answer format: words)",
+            "③ List as many 'identity' or favorite things as you can. (Answer format: words)",
           idealLifeLabel:
-            "③ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
+            "④ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
           generateButton: "Generate",
           loadingText: "Generating image... (30 seconds to 1 minute)",
           resultTitle: "Visionboard",
-          explainToDownload:"Long press to download",
+          explainToDownload: "Long press to download",
           privacyText:
             'I agree to the <a href="https://ikigai96.studio.site/privacy-policy-1" target="_blank" id="privacyLink">Privacy Policy</a>',
+          advertisement:
+            'Share and spread your vision with friends on SNS!<br /> <a href="https://ikigai96.studio.site/1-2" target="_blank" id="privacyLink">Click here</a> if you want multiple Visionboards.<br /> <a href="https://ikigai96.studio.site/" target="_blank" id="privacyLink">Contact us.</a>',
         },
       };
 
       function setLanguage(lang) {
+        document.documentElement.lang = lang; // 言語を設定
         document.getElementById("title").textContent = textContent[lang].title;
         document.getElementById("description").textContent =
           textContent[lang].description;
         document.getElementById("nameLabel").textContent =
           textContent[lang].nameLabel;
+        document.getElementById("snsAccount").textContent =
+          textContent[lang].snsAccount;
         document.getElementById("identityLabel").textContent =
           textContent[lang].identityLabel;
         document.getElementById("idealLifeLabel").textContent =
@@ -148,14 +192,20 @@
           textContent[lang].resultTitle;
         document.getElementById("explainToDownload").textContent =
           textContent[lang].explainToDownload;
-
-        // プライバシーポリシーのテキストを切り替える（innerHTMLでリンクを含めて設定）
         document.getElementById("privacyText").innerHTML =
           textContent[lang].privacyText;
+        document.getElementById("advertisement").innerHTML =
+          textContent[lang].advertisement;
       }
 
       // すべてのフォームが入力され、プライバシーポリシーがチェックされたら生成ボタンを有効化
-      const formElements = ["name", "identity", "idealLife", "privacyPolicy"];
+      const formElements = [
+        "name",
+        "snsAccount",
+        "identity",
+        "idealLife",
+        "privacyPolicy",
+      ];
       formElements.forEach((id) => {
         document
           .getElementById(id)
@@ -164,6 +214,8 @@
 
       function checkFormCompletion() {
         const nameFilled = document.getElementById("name").value.trim() !== "";
+        const snsAccountFilled =
+          document.getElementById("snsAccount").value.trim() !== ""; // 修正
         const identityFilled =
           document.getElementById("identity").value.trim() !== "";
         const idealLifeFilled =
@@ -173,6 +225,7 @@
 
         if (
           nameFilled &&
+          snsAccountFilled &&
           identityFilled &&
           idealLifeFilled &&
           privacyPolicyChecked
@@ -197,6 +250,7 @@
           document.getElementById("imageResult").style.display = "none";
 
           const name = document.getElementById("name").value;
+          const snsAccount = document.getElementById("snsAccount").value;
           const identity = document.getElementById("identity").value;
           const idealLife = document.getElementById("idealLife").value;
 
@@ -204,32 +258,9 @@
           const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
 
           try {
-            // GASにデータを保存するリクエストを送信
-            fetch(
-              "https://script.google.com/macros/s/AKfycbwuHir3ASadYNwbamz8h5yH3_HLHnrmx2DG926e8DLS7ymBR6NHLkeBc4SFAyRDcTBF/exec",
-              {
-                method: "POST",
-                body: JSON.stringify({
-                  name: name,
-                  identity: identity,
-                  idealLife: idealLife,
-                }),
-                "Content-Type": "application/json",
-              }
-            )
-              .then((response) => {
-                return response.json();
-              })
-              .then((json) => {
-                // レスポンス json の処理
-              })
-              .catch((err) => {
-                // エラー処理
-              });
-
             // GASからGPTトークンを取得
             const tokenResponse = await fetch(
-              "https://script.google.com/macros/s/AKfycbzKOH56P_5mUgMLYzbClv4nZHa64crdMdpQEDqXvpTxT-feU98zq8UmKKW9PmOGvYG8/exec"
+              "https://script.google.com/macros/s/AKfycbxdl1KINFF9OFySy0_8i5q7ZFUXdgz6CjzVWIv9-_WPSeB1vVNK4MvBkU7zD0JrQadh/exec"
             );
             const tokenData = await tokenResponse.json();
             const gptToken = tokenData.token;
@@ -261,14 +292,40 @@
 
             document.getElementById("generatedImage").src = imageUrl;
             document.getElementById("imageResult").style.display = "block";
+            // GASにデータを保存するリクエストを送信
+            // ローカルストレージにフラグをセット
+            localStorage.setItem("visionboardGenerated", "true");
+            
+            fetch(
+              "https://script.google.com/macros/s/AKfycbxdl1KINFF9OFySy0_8i5q7ZFUXdgz6CjzVWIv9-_WPSeB1vVNK4MvBkU7zD0JrQadh/exec",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  name,
+                  snsAccount,
+                  identity,
+                  idealLife,
+                  imageUrl,
+                }),
+                "Content-Type": "application/json",
+              }
+            )
+              .then((response) => {
+                return response.json();
+              })
+              .then((json) => {
+                // レスポンス json の処理
+              })
+              .catch((err) => {
+                // エラー処理
+              });
           } catch (error) {
             console.error("Error:", error);
             alert("画像の生成に失敗しました。");
           } finally {
             document.getElementById("loading").style.display = "none";
-            generateButton.disabled = false;
-            generateButton.value =
-              textContent[document.documentElement.lang].generateButton;
+            generateButton.disabled = true; // ボタンを再度無効化
+            generateButton.value = "生成済み"; // ボタンのテキストを「生成済み」に変更
           }
         });
     </script>
