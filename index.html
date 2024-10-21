@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ikigAIグラレコ生成</title>
+    <title>ikigAIビジョンボード生成</title>
     <link rel="stylesheet" href="style.css" />
     <style>
       #generateButton {
@@ -34,9 +34,9 @@
       <button onclick="setLanguage('en')">English</button>
     </div>
 
-    <h1 id="title">ikigAIグラレコ生成</h1>
+    <h1 id="title">ikigAIビジョンボード生成</h1>
     <p id="description">
-      以下の２問の回答に基づいてikigAIグラレコを生成します。できるたけ具体的に記載してください。
+      以下の２問の回答に基づいてikigAIビジョンボードを生成します。できるだけ具体的に記載してください。
     </p>
 
     <form id="generateForm">
@@ -51,7 +51,7 @@
       <input type="text" id="identity" name="identity" required /><br /><br />
 
       <label id="idealLifeLabel" for="idealLife" style="text-align: left"
-        >③「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label
+        >③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label
       ><br />
       <textarea id="idealLife" name="idealLife" required></textarea><br /><br />
 
@@ -81,11 +81,11 @@
     <script>
       const textContent = {
         ja: {
-          title: "ikigAIグラレコ生成",
-          description: "以下のフォームの回答に基づいて画像を生成します。",
+          title: "ikigAIビジョンボード生成",
+          description: "以下の２問の回答に基づいてikigAIビジョンボードを生成します。できるだけ具体的に記載してください。",
           nameLabel: "① 氏名 (必須)",
-          identityLabel: "②「自分らしいこと」をできるだけ多くあげてください。(回答形式：単語)",
-          idealLifeLabel: "③「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
+          identityLabel: "②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)",
+          idealLifeLabel: "③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
           generateButton: "生成",
           loadingText: "画像生成中...（30秒〜1分ほど）",
           resultTitle: "あなたの理想の生成AI画像",
@@ -96,11 +96,11 @@
           description: "Generate an image based on the answers provided in the form below.",
           nameLabel: "① Your full name (Required)",
           identityLabel: "② List as many 'identity' or favorite things as you can. (Answer format: words)",
-          idealLifeLabel: "③ Describe your 'ideal life in 3 years' or the ideal society you wish to create. (Answer format: written description)",
+          idealLifeLabel: "③ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
           generateButton: "Generate",
           loadingText: "Generating image... (30 seconds to 1 minute)",
           resultTitle: "Your Ideal Generated AI Image",
-          privacyText: 'I agree to the <a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">Privacy Policy</a>',
+          privacyText: 'I agree to the <a href="https://ikigai96.studio.site/privacy-policy-1" target="_blank" id="privacyLink">Privacy Policy</a>',
         },
       };
 
