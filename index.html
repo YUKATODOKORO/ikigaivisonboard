@@ -1,137 +1,226 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ikigAIグラレコ生成</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        #generateButton {
-            padding: 0px 20px 0px 20px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-        }
+      #generateButton {
+        padding: 0px 20px 0px 20px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+      }
 
-        #generateButton:disabled {
-            background-color: #cccccc;
-            color: #666666;
-            cursor: not-allowed;
-        }
+      #generateButton:disabled {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+      }
 
-        .lang-toggle {
-            margin: 10px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border: 1px solid #000;
-            display: inline-block;
-        }
+      .lang-toggle {
+        margin: 10px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border: 1px solid #000;
+        display: inline-block;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="language-switch">
-        <button onclick="setLanguage('ja')">日本語</button>
-        <button onclick="setLanguage('en')">English</button>
+      <button onclick="setLanguage('ja')">日本語</button>
+      <button onclick="setLanguage('en')">English</button>
     </div>
 
     <h1 id="title">ikigAIグラレコ生成</h1>
-    <p id="description">以下の２問の回答に基づいてikigAIグラレコを生成します。できるたけ具体的に記載してください。</p>
- 
+    <p id="description">
+      以下の２問の回答に基づいてikigAIグラレコを生成します。できるたけ具体的に記載してください。
+    </p>
+
     <form id="generateForm">
-        <label id="identityLabel" for="identity">①「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)</label><br>
-        <input type="text" id="identity" name="identity"><br><br>
+      <label id="nameLabel" for="name" style="text-align: left"
+        >① 氏名 (必須)</label
+      ><br />
+      <input type="text" id="name" name="name" required /><br /><br />
 
-        <label id="idealLifeLabel" for="idealLife">②「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label><br>
-        <textarea id="idealLife" name="idealLife"></textarea><br><br>
+      <label id="identityLabel" for="identity" style="text-align: left"
+        >②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)</label
+      ><br />
+      <input type="text" id="identity" name="identity" required /><br /><br />
 
-        <input type="submit" value="生成" id="generateButton">
+      <label id="idealLifeLabel" for="idealLife" style="text-align: left"
+        >③「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)</label
+      ><br />
+      <textarea id="idealLife" name="idealLife" required></textarea><br /><br />
+
+      <label id="privacyPolicyLabel">
+        <input type="checkbox" id="privacyPolicy" required />
+        <span id="privacyText">
+          <a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します
+        </span>
+      </label><br /><br />
+
+      <input type="submit" value="生成" id="generateButton" disabled />
     </form>
 
-    <div id="loading" style="display: none;">
-        <p id="loadingText">画像生成中...（30秒〜1分ほど）</p>
+    <div id="loading" style="display: none">
+      <p id="loadingText">画像生成中...（30秒〜1分ほど）</p>
     </div>
 
-    <div id="imageResult" style="display: none;">
-        <h2 id="resultTitle">あなたの理想の生成AI画像</h2>
-        <img id="generatedImage" alt="生成された画像" style="max-width: 270px; max-height: 480px;">
+    <div id="imageResult" style="display: none">
+      <h2 id="resultTitle">あなたの理想の生成AI画像</h2>
+      <img
+        id="generatedImage"
+        alt="生成された画像"
+        style="max-width: 270px; max-height: 480px"
+      />
     </div>
 
     <script>
-        const textContent = {
-            ja: {
-                title: "ikigAIグラレコ生成",
-                description: "以下のフォームの回答に基づいて画像を生成します。",
-                identityLabel: "①「自分らしいこと」をできるだけ多くあげてください。(回答形式：単語)",
-                idealLifeLabel: "②「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
-                generateButton: "生成",
-                loadingText: "画像生成中...（30秒〜1分ほど）",
-                resultTitle: "あなたの理想の生成AI画像"
-            },
-            en: {
-                title: "ikigAI Visionboard Generation",
-                description: "Generate an image based on the answers provided in the form below.",
-                identityLabel: "① List as many 'identity' or favorite things as you can. (Answer format: words)",
-                idealLifeLabel: "② Describe your 'ideal life in 3 years' or the ideal society you wish to create. (Answer format: written description)",
-                generateButton: "Generate",
-                loadingText: "Generating image... (30 seconds to 1 minute)",
-                resultTitle: "Your Ideal Generated AI Image"
-            }
-        };
+      const textContent = {
+        ja: {
+          title: "ikigAIグラレコ生成",
+          description: "以下のフォームの回答に基づいて画像を生成します。",
+          nameLabel: "① 氏名 (必須)",
+          identityLabel: "②「自分らしいこと」をできるだけ多くあげてください。(回答形式：単語)",
+          idealLifeLabel: "③「3年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
+          generateButton: "生成",
+          loadingText: "画像生成中...（30秒〜1分ほど）",
+          resultTitle: "あなたの理想の生成AI画像",
+          privacyText: '<a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します',
+        },
+        en: {
+          title: "ikigAI Visionboard Generation",
+          description: "Generate an image based on the answers provided in the form below.",
+          nameLabel: "① Your full name (Required)",
+          identityLabel: "② List as many 'identity' or favorite things as you can. (Answer format: words)",
+          idealLifeLabel: "③ Describe your 'ideal life in 3 years' or the ideal society you wish to create. (Answer format: written description)",
+          generateButton: "Generate",
+          loadingText: "Generating image... (30 seconds to 1 minute)",
+          resultTitle: "Your Ideal Generated AI Image",
+          privacyText: 'I agree to the <a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">Privacy Policy</a>',
+        },
+      };
 
-        function setLanguage(lang) {
-            document.getElementById('title').textContent = textContent[lang].title;
-            document.getElementById('description').textContent = textContent[lang].description;
-            document.getElementById('identityLabel').textContent = textContent[lang].identityLabel;
-            document.getElementById('idealLifeLabel').textContent = textContent[lang].idealLifeLabel;
-            document.getElementById('generateButton').value = textContent[lang].generateButton;
-            document.getElementById('loadingText').textContent = textContent[lang].loadingText;
-            document.getElementById('resultTitle').textContent = textContent[lang].resultTitle;
+      function setLanguage(lang) {
+        document.getElementById("title").textContent = textContent[lang].title;
+        document.getElementById("description").textContent = textContent[lang].description;
+        document.getElementById("nameLabel").textContent = textContent[lang].nameLabel;
+        document.getElementById("identityLabel").textContent = textContent[lang].identityLabel;
+        document.getElementById("idealLifeLabel").textContent = textContent[lang].idealLifeLabel;
+        document.getElementById("generateButton").value = textContent[lang].generateButton;
+        document.getElementById("loadingText").textContent = textContent[lang].loadingText;
+        document.getElementById("resultTitle").textContent = textContent[lang].resultTitle;
+
+        // プライバシーポリシーのテキストを切り替える（innerHTMLでリンクを含めて設定）
+        document.getElementById("privacyText").innerHTML = textContent[lang].privacyText;
+      }
+
+      // すべてのフォームが入力され、プライバシーポリシーがチェックされたら生成ボタンを有効化
+      const formElements = ["name", "identity", "idealLife", "privacyPolicy"];
+      formElements.forEach((id) => {
+        document.getElementById(id).addEventListener("input", checkFormCompletion);
+      });
+
+      function checkFormCompletion() {
+        const nameFilled = document.getElementById("name").value.trim() !== "";
+        const identityFilled = document.getElementById("identity").value.trim() !== "";
+        const idealLifeFilled = document.getElementById("idealLife").value.trim() !== "";
+        const privacyPolicyChecked = document.getElementById("privacyPolicy").checked;
+
+        if (nameFilled && identityFilled && idealLifeFilled && privacyPolicyChecked) {
+          document.getElementById("generateButton").disabled = false;
+        } else {
+          document.getElementById("generateButton").disabled = true;
         }
+      }
 
-        // 生成フォームの送信
-        document.getElementById('generateForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+      // 生成フォームの送信
+      document.getElementById("generateForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-            const generateButton = document.getElementById('generateButton');
-            generateButton.disabled = true;
-            generateButton.value = textContent[document.documentElement.lang].generateButton + "...";
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('imageResult').style.display = 'none';
+        const generateButton = document.getElementById("generateButton");
+        generateButton.disabled = true;
+        generateButton.value = textContent[document.documentElement.lang].generateButton + "...";
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("imageResult").style.display = "none";
 
-            const identity = document.getElementById('identity').value;
-            const idealLife = document.getElementById('idealLife').value;
-            const prompt = `${identity}をアイデンティティとして持つ人が、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
+        const name = document.getElementById("name").value;
+        const identity = document.getElementById("identity").value;
+        const idealLife = document.getElementById("idealLife").value;
 
-            try {
-                // CORSを回避するために、GAS経由でリクエストを送信
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzy4EzCSeIIFOyKG7tfLhnyGzx7YMFdjg0xiT3hqGIk-NW-eHE61nxxQHh0dR1W9NEZ/exec', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        prompt: prompt
-                    })
-                });
+        // プロンプトを作成
+        const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
 
-                if (!response.ok) {
-                    throw new Error('Error generating image');
-                }
-
-                const data = await response.json();
-                const imageUrl = data.imageUrl;
-
-                document.getElementById('generatedImage').src = imageUrl;
-                document.getElementById('imageResult').style.display = 'block';
-            } catch (error) {
-                console.error('Error:', error);
-                alert('画像の生成に失敗しました。');
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-                generateButton.disabled = false;
-                generateButton.value = textContent[document.documentElement.lang].generateButton;
+        try {
+          // GASにデータを保存するリクエストを送信
+          fetch(
+            "https://script.google.com/macros/s/AKfycbwuHir3ASadYNwbamz8h5yH3_HLHnrmx2DG926e8DLS7ymBR6NHLkeBc4SFAyRDcTBF/exec",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                name: name,
+                identity: identity,
+                idealLife: idealLife,
+              }),
+              "Content-Type": "application/json",
             }
-        });
+          )
+            .then((response) => {
+              return response.json();
+            })
+            .then((json) => {
+              // レスポンス json の処理
+            })
+            .catch((err) => {
+              // エラー処理
+            });
+
+          // GASからGPTトークンを取得
+          const tokenResponse = await fetch(
+            "https://script.google.com/macros/s/AKfycbzKOH56P_5mUgMLYzbClv4nZHa64crdMdpQEDqXvpTxT-feU98zq8UmKKW9PmOGvYG8/exec"
+          );
+          const tokenData = await tokenResponse.json();
+          const gptToken = tokenData.token;
+
+          // OpenAI APIリクエストを送信
+          const response = await fetch(
+            "https://api.openai.com/v1/images/generations",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${gptToken}`, // GASから取得したトークンを使用
+              },
+              body: JSON.stringify({
+                model: "dall-e-3",
+                prompt: prompt,
+                size: "1024x1792",
+                n: 1,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Error generating image");
+          }
+
+          const data = await response.json();
+          const imageUrl = data.data[0].url;
+
+          document.getElementById("generatedImage").src = imageUrl;
+          document.getElementById("imageResult").style.display = "block";
+        } catch (error) {
+          console.error("Error:", error);
+          alert("画像の生成に失敗しました。");
+        } finally {
+          document.getElementById("loading").style.display = "none";
+          generateButton.disabled = false;
+          generateButton.value = textContent[document.documentElement.lang].generateButton;
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
