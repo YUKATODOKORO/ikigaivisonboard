@@ -102,9 +102,7 @@ input[type="submit"]:hover {
 
 /* 言語切替ボタンを右上に配置 */
 .language-switch {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    
 }
 
 .language-switch button {

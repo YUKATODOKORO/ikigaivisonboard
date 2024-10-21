@@ -29,9 +29,19 @@
     </style>
   </head>
   <body>
-    <div class="language-switch">
-      <button onclick="setLanguage('ja')">日本語</button>
-      <button onclick="setLanguage('en')">English</button>
+    <div
+      style="
+        display: flex;
+        justify-content: right;
+        width: 100vw;
+        padding-top: 24px;
+        margin-right: 24px;
+      "
+    >
+      <div class="language-switch">
+        <button onclick="setLanguage('ja')">日本語</button>
+        <button onclick="setLanguage('en')">English</button>
+      </div>
     </div>
 
     <h1 id="title">ikigAIビジョンボード生成</h1>
@@ -58,9 +68,14 @@
       <label id="privacyPolicyLabel">
         <input type="checkbox" id="privacyPolicy" required />
         <span id="privacyText">
-          <a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します
-        </span>
-      </label><br /><br />
+          <a
+            href="https://ikigai96.studio.site/privacy-policy"
+            target="_blank"
+            id="privacyLink"
+            >プライバシーポリシー</a
+          >に同意します
+        </span> </label
+      ><br /><br />
 
       <input type="submit" value="生成" id="generateButton" disabled />
     </form>
@@ -82,55 +97,81 @@
       const textContent = {
         ja: {
           title: "ikigAIビジョンボード生成",
-          description: "以下の２問の回答に基づいてikigAIビジョンボードを生成します。できるだけ具体的に記載してください。",
+          description:
+            "以下の２問の回答に基づいてikigAIビジョンボードを生成します。できるだけ具体的に記載してください。",
           nameLabel: "① 氏名 (必須)",
-          identityLabel: "②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)",
-          idealLifeLabel: "③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
+          identityLabel:
+            "②「自分らしいこと」好きなこと、アイデンティティ(回答形式：単語)",
+          idealLifeLabel:
+            "③「1年後の理想の暮らし」やこういう社会にしたいという理想の想いを文章で具体的に記載ください。(回答形式：記述式)",
           generateButton: "生成",
           loadingText: "画像生成中...（30秒〜1分ほど）",
           resultTitle: "あなたの理想の生成AI画像",
-          privacyText: '<a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します',
+          privacyText:
+            '<a href="https://ikigai96.studio.site/privacy-policy" target="_blank" id="privacyLink">プライバシーポリシー</a>に同意します',
         },
         en: {
           title: "ikigAI Visionboard Generation",
-          description: "Generate an image based on the answers provided in the form below.",
+          description:
+            "Generate an image based on the answers provided in the form below.",
           nameLabel: "① Your full name (Required)",
-          identityLabel: "② List as many 'identity' or favorite things as you can. (Answer format: words)",
-          idealLifeLabel: "③ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
+          identityLabel:
+            "② List as many 'identity' or favorite things as you can. (Answer format: words)",
+          idealLifeLabel:
+            "③ Describe your 'ideal life in 1 years' or the ideal society you wish to create. (Answer format: written description)",
           generateButton: "Generate",
           loadingText: "Generating image... (30 seconds to 1 minute)",
           resultTitle: "Your Ideal Generated AI Image",
-          privacyText: 'I agree to the <a href="https://ikigai96.studio.site/privacy-policy-1" target="_blank" id="privacyLink">Privacy Policy</a>',
+          privacyText:
+            'I agree to the <a href="https://ikigai96.studio.site/privacy-policy-1" target="_blank" id="privacyLink">Privacy Policy</a>',
         },
       };
 
       function setLanguage(lang) {
         document.getElementById("title").textContent = textContent[lang].title;
-        document.getElementById("description").textContent = textContent[lang].description;
-        document.getElementById("nameLabel").textContent = textContent[lang].nameLabel;
-        document.getElementById("identityLabel").textContent = textContent[lang].identityLabel;
-        document.getElementById("idealLifeLabel").textContent = textContent[lang].idealLifeLabel;
-        document.getElementById("generateButton").value = textContent[lang].generateButton;
-        document.getElementById("loadingText").textContent = textContent[lang].loadingText;
-        document.getElementById("resultTitle").textContent = textContent[lang].resultTitle;
+        document.getElementById("description").textContent =
+          textContent[lang].description;
+        document.getElementById("nameLabel").textContent =
+          textContent[lang].nameLabel;
+        document.getElementById("identityLabel").textContent =
+          textContent[lang].identityLabel;
+        document.getElementById("idealLifeLabel").textContent =
+          textContent[lang].idealLifeLabel;
+        document.getElementById("generateButton").value =
+          textContent[lang].generateButton;
+        document.getElementById("loadingText").textContent =
+          textContent[lang].loadingText;
+        document.getElementById("resultTitle").textContent =
+          textContent[lang].resultTitle;
 
         // プライバシーポリシーのテキストを切り替える（innerHTMLでリンクを含めて設定）
-        document.getElementById("privacyText").innerHTML = textContent[lang].privacyText;
+        document.getElementById("privacyText").innerHTML =
+          textContent[lang].privacyText;
       }
 
       // すべてのフォームが入力され、プライバシーポリシーがチェックされたら生成ボタンを有効化
       const formElements = ["name", "identity", "idealLife", "privacyPolicy"];
       formElements.forEach((id) => {
-        document.getElementById(id).addEventListener("input", checkFormCompletion);
+        document
+          .getElementById(id)
+          .addEventListener("input", checkFormCompletion);
       });
 
       function checkFormCompletion() {
         const nameFilled = document.getElementById("name").value.trim() !== "";
-        const identityFilled = document.getElementById("identity").value.trim() !== "";
-        const idealLifeFilled = document.getElementById("idealLife").value.trim() !== "";
-        const privacyPolicyChecked = document.getElementById("privacyPolicy").checked;
+        const identityFilled =
+          document.getElementById("identity").value.trim() !== "";
+        const idealLifeFilled =
+          document.getElementById("idealLife").value.trim() !== "";
+        const privacyPolicyChecked =
+          document.getElementById("privacyPolicy").checked;
 
-        if (nameFilled && identityFilled && idealLifeFilled && privacyPolicyChecked) {
+        if (
+          nameFilled &&
+          identityFilled &&
+          idealLifeFilled &&
+          privacyPolicyChecked
+        ) {
           document.getElementById("generateButton").disabled = false;
         } else {
           document.getElementById("generateButton").disabled = true;
@@ -138,89 +179,93 @@
       }
 
       // 生成フォームの送信
-      document.getElementById("generateForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
+      document
+        .getElementById("generateForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-        const generateButton = document.getElementById("generateButton");
-        generateButton.disabled = true;
-        generateButton.value = textContent[document.documentElement.lang].generateButton + "...";
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("imageResult").style.display = "none";
+          const generateButton = document.getElementById("generateButton");
+          generateButton.disabled = true;
+          generateButton.value =
+            textContent[document.documentElement.lang].generateButton + "...";
+          document.getElementById("loading").style.display = "block";
+          document.getElementById("imageResult").style.display = "none";
 
-        const name = document.getElementById("name").value;
-        const identity = document.getElementById("identity").value;
-        const idealLife = document.getElementById("idealLife").value;
+          const name = document.getElementById("name").value;
+          const identity = document.getElementById("identity").value;
+          const idealLife = document.getElementById("idealLife").value;
 
-        // プロンプトを作成
-        const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
+          // プロンプトを作成
+          const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
 
-        try {
-          // GASにデータを保存するリクエストを送信
-          fetch(
-            "https://script.google.com/macros/s/AKfycbwuHir3ASadYNwbamz8h5yH3_HLHnrmx2DG926e8DLS7ymBR6NHLkeBc4SFAyRDcTBF/exec",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                name: name,
-                identity: identity,
-                idealLife: idealLife,
-              }),
-              "Content-Type": "application/json",
-            }
-          )
-            .then((response) => {
-              return response.json();
-            })
-            .then((json) => {
-              // レスポンス json の処理
-            })
-            .catch((err) => {
-              // エラー処理
-            });
-
-          // GASからGPTトークンを取得
-          const tokenResponse = await fetch(
-            "https://script.google.com/macros/s/AKfycbzKOH56P_5mUgMLYzbClv4nZHa64crdMdpQEDqXvpTxT-feU98zq8UmKKW9PmOGvYG8/exec"
-          );
-          const tokenData = await tokenResponse.json();
-          const gptToken = tokenData.token;
-
-          // OpenAI APIリクエストを送信
-          const response = await fetch(
-            "https://api.openai.com/v1/images/generations",
-            {
-              method: "POST",
-              headers: {
+          try {
+            // GASにデータを保存するリクエストを送信
+            fetch(
+              "https://script.google.com/macros/s/AKfycbwuHir3ASadYNwbamz8h5yH3_HLHnrmx2DG926e8DLS7ymBR6NHLkeBc4SFAyRDcTBF/exec",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  name: name,
+                  identity: identity,
+                  idealLife: idealLife,
+                }),
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${gptToken}`, // GASから取得したトークンを使用
-              },
-              body: JSON.stringify({
-                model: "dall-e-3",
-                prompt: prompt,
-                size: "1024x1792",
-                n: 1,
-              }),
+              }
+            )
+              .then((response) => {
+                return response.json();
+              })
+              .then((json) => {
+                // レスポンス json の処理
+              })
+              .catch((err) => {
+                // エラー処理
+              });
+
+            // GASからGPTトークンを取得
+            const tokenResponse = await fetch(
+              "https://script.google.com/macros/s/AKfycbzKOH56P_5mUgMLYzbClv4nZHa64crdMdpQEDqXvpTxT-feU98zq8UmKKW9PmOGvYG8/exec"
+            );
+            const tokenData = await tokenResponse.json();
+            const gptToken = tokenData.token;
+
+            // OpenAI APIリクエストを送信
+            const response = await fetch(
+              "https://api.openai.com/v1/images/generations",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${gptToken}`, // GASから取得したトークンを使用
+                },
+                body: JSON.stringify({
+                  model: "dall-e-3",
+                  prompt: prompt,
+                  size: "1024x1792",
+                  n: 1,
+                }),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Error generating image");
             }
-          );
 
-          if (!response.ok) {
-            throw new Error("Error generating image");
+            const data = await response.json();
+            const imageUrl = data.data[0].url;
+
+            document.getElementById("generatedImage").src = imageUrl;
+            document.getElementById("imageResult").style.display = "block";
+          } catch (error) {
+            console.error("Error:", error);
+            alert("画像の生成に失敗しました。");
+          } finally {
+            document.getElementById("loading").style.display = "none";
+            generateButton.disabled = false;
+            generateButton.value =
+              textContent[document.documentElement.lang].generateButton;
           }
-
-          const data = await response.json();
-          const imageUrl = data.data[0].url;
-
-          document.getElementById("generatedImage").src = imageUrl;
-          document.getElementById("imageResult").style.display = "block";
-        } catch (error) {
-          console.error("Error:", error);
-          alert("画像の生成に失敗しました。");
-        } finally {
-          document.getElementById("loading").style.display = "none";
-          generateButton.disabled = false;
-          generateButton.value = textContent[document.documentElement.lang].generateButton;
-        }
-      });
+        });
     </script>
   </body>
 </html>
