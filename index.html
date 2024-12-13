@@ -255,7 +255,10 @@
           const idealLife = document.getElementById("idealLife").value;
 
           // プロンプトを作成
-          const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
+          // const prompt = `${name}という名前の人が、${identity}をアイデンティティとして持ち、${idealLife}という理想の暮らしを送っているグラレコっぽい縦型のアスペクト比の画像を作ってください。`;
+          const prompt = `①のアイデンティティを持つ人の②を理想の暮らしとしたグラレコっぽいビジョンボードを、縦型のアスペクト比の画像を作ってください。\n\n
+                          ①${identity}\n\n
+                          ②${idealLife}`;
 
           try {
             // GASからGPTトークンを取得
@@ -275,7 +278,7 @@
                   Authorization: `Bearer ${gptToken}`, // GASから取得したトークンを使用
                 },
                 body: JSON.stringify({
-                  model: "dall-e-3",
+                  model: "dall-e-2",
                   prompt: prompt,
                   size: "1024x1792",
                   n: 1,
@@ -295,7 +298,7 @@
             // GASにデータを保存するリクエストを送信
             // ローカルストレージにフラグをセット
             localStorage.setItem("visionboardGenerated", "true");
-            
+
             fetch(
               "https://script.google.com/macros/s/AKfycbxdl1KINFF9OFySy0_8i5q7ZFUXdgz6CjzVWIv9-_WPSeB1vVNK4MvBkU7zD0JrQadh/exec",
               {
